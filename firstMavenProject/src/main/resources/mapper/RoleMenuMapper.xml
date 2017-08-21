@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tw.dao.RoleMenuMapper">
+  <resultMap id="BaseResultMap" type="cn.tw.pojo.RoleMenuKey">
+    <id column="roleid" jdbcType="INTEGER" property="roleid" />
+    <id column="menuid" jdbcType="VARCHAR" property="menuid" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="cn.tw.pojo.RoleMenuKey">
+    delete from role_menu
+    where roleid = #{roleid,jdbcType=INTEGER}
+      and menuid = #{menuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="cn.tw.pojo.RoleMenuKey">
+    insert into role_menu (roleid, menuid)
+    values (#{roleid,jdbcType=INTEGER}, #{menuid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.tw.pojo.RoleMenuKey">
+    insert into role_menu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roleid != null">
+        roleid,
+      </if>
+      <if test="menuid != null">
+        menuid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="roleid != null">
+        #{roleid,jdbcType=INTEGER},
+      </if>
+      <if test="menuid != null">
+        #{menuid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <select id="selectMenuIdsByRoleId" resultType="String">
+    SELECT menuid FROM role_menu
+    <where>
+      <if test="roleid!=null">
+        roleid=#{roleid}
+      </if>
+    </where>
+  </select>
+</mapper>
